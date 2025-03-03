@@ -20,28 +20,20 @@ export default function NewPassword() {
                 }}
                 showsVerticalScrollIndicator={false}
             >
-                <Text style={{ ...FONTS.H2, marginBottom: 10 }}>
-                    New Password
+                <Text style={{ ...FONTS.H2, marginBottom: 30 }}>
+                    Mật khẩu mới
                 </Text>
-                <Text
-                    style={{
-                        ...FONTS.H4,
-                        marginBottom: 18,
-                        paddingHorizontal: 20,
-                    }}
-                >
-                    We have sent you an SMS with a code to number +17 0123456789
-                </Text>
+
                 <InputField
-                    placeholder="New Password"
+                    placeholder="Mật khẩu mới"
                     contaynerStyle={{ marginBottom: 15 }}
                 />
                 <InputField
-                    placeholder="Confirm Password"
+                    placeholder="Xác nhận lại mật khẩu"
                     contaynerStyle={{ marginBottom: 30 }}
                 />
                 <Button
-                    title="Change Password"
+                    title="Thay đổi mật khẩu"
                     onPress={() => navigation.navigate("PasswordHasBeenReset")}
                 />
             </KeyboardAwareScrollView>
@@ -51,7 +43,7 @@ export default function NewPassword() {
     return (
         <View style={{ ...SAFEAREAVIEW.AndroidSafeArea }}>
             <Header
-                title="Reset Password"
+                title="Cài lại mật khẩu"
                 onPress={() => navigation.goBack()}
             />
             {renderContent()}

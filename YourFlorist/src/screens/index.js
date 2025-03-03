@@ -7,6 +7,7 @@ import Home from "./Home";
 import NeedHelp from "./NeedHelp";
 import ForgotPassword from "./ForgotPassword";
 import NewPassword from "./NewPassword";
+import PasswordHasBeenReset from "./PasswordHasBeenReset"
 
 export {
     SignIn,
@@ -18,4 +19,5 @@ export {
     NeedHelp,
     ForgotPassword,
     NewPassword,
+    PasswordHasBeenReset,
 };

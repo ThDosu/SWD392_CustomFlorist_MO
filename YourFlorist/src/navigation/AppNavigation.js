@@ -13,6 +13,7 @@ import {
     NeedHelp,
     ForgotPassword,
     NewPassword,
+    PasswordHasBeenReset,
 } from "../screens";
 
 const Stack = createStackNavigator();
@@ -40,6 +41,7 @@ export default function Navigation() {
                 <Stack.Screen name="NeedHelp" component={NeedHelp} />
                 <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
                 <Stack.Screen name="NewPassword" component={NewPassword} />
+                <Stack.Screen name="PasswordHasBeenReset" component={PasswordHasBeenReset} />
             </Stack.Navigator>
             <FlashMessage position="top" />
         </NavigationContainer>
