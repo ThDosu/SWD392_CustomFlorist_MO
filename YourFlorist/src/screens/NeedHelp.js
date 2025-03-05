@@ -121,6 +121,7 @@ export default function NeedHelp() {
               shadowRadius: 4,
               shadowOffset: { width: 1, height: 2 },
             }}
+            onPress={() => navigation.navigate("GuideDetail", { id: item.id })} // Điều hướng đến trang chi tiết
           >
             <Ionicons name={item.icon} size={28} color={COLORS.primary} style={{ marginRight: 15 }} />
             <View>

@@ -65,7 +65,7 @@ export default function Profile() {
                     onPress={() => navigation.navigate("EditProfile")}
                 >
                     <Image
-                        source={require("../assets/images/user.png")}
+                        source={require("../assets/images/user/shipper1.gif")}
                         style={{
                             width: 80,
                             height: 80,
