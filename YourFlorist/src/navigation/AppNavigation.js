@@ -5,7 +5,6 @@ import FlashMessage from "react-native-flash-message";
 
 import {
     SignIn,
-    FavoriteList,
     Profile,
     MainLayout,
     Home,
@@ -18,6 +17,8 @@ import {
     Guide3,
     GuideDetail,
     Order,
+    OrderHistory,
+    OrderDetails,
 } from "../screens";
 
 const Stack = createStackNavigator();
@@ -37,7 +38,6 @@ export default function Navigation() {
                 initialRouteName="SignIn"
             >
                 <Stack.Screen name="SignIn" component={SignIn} />
-                <Stack.Screen name="FavoriteList" component={FavoriteList} />
                 <Stack.Screen name="Profile" component={Profile} />
                 <Stack.Screen name="MainLayout" component={MainLayout} />
                 <Stack.Screen name="Home" component={Home} />
@@ -50,6 +50,8 @@ export default function Navigation() {
                 <Stack.Screen name="Guide3" component={Guide3} />
                 <Stack.Screen name="GuideDetail" component={GuideDetail} />
                 <Stack.Screen name="Order" component={Order} />
+                <Stack.Screen name="OrderHistory" component ={OrderHistory} />
+                <Stack.Screen name="OrderDetails" component={OrderDetails} />
             </Stack.Navigator>
             <FlashMessage position="top" />
         </NavigationContainer>

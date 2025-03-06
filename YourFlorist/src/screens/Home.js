@@ -9,29 +9,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-
-// API giả lập lấy thông tin user & đơn hàng
-type User = {
-  name: string,
-  notifications: number,
-  earnings: number,
-  ordersToday: number,
-};
-
-const fetchUser = async (): Promise<User> => {
-  return new Promise((resolve) => {
-    setTimeout(
-      () =>
-        resolve({
-          name: "Thành Dũng",
-          totalOrdersToday: 10,
-          completedOrders: 6,
-          inProgressOrders: 4,
-        }),
-      1000
-    );
-  });
-};
+import { orders } from "../constants/demo_data";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -42,29 +20,7 @@ export default function Home() {
     completedOrders: 0,
     inProgressOrders: 0,
   });
-
-  useEffect(() => {
-    fetchUser().then(setUser);
-  }, []);
-
-  // sau này lấy api để hiển thị đơn hàng
-  const orders = [
-    {
-      id: "1",
-      title: "Order #001",
-      userImage:
-        "https://firebasestorage.googleapis.com/v0/b/swd392-customflorist.firebasestorage.app/o/user_avatar%2Fz6272289540347_8313f84e9f9e88baa3104f321710ad92.jpg?alt=media&token=d60cecfc-f95f-4918-8d87-70cce58733d6",
-      userName: "Phạm Lê Thành Dũng",
-      status: "Đang giao",
-    },
-    {
-      id: "2",
-      title: "Order #002",
-      userImage: "https://via.placeholder.com/50",
-      userName: "Trần Thị B",
-      status: "Chưa giao",
-    },
-  ];
+  const [selectedTab, setSelectedTab] = useState("Home");
 
   const filteredOrders = orders.filter((order) => order.status === "Đang giao");
 
@@ -105,12 +61,20 @@ export default function Home() {
         </View>
       </View>
       {/* Nút Nhận đơn mới */}
+      {/* <TouchableOpacity
+        style={styles.newOrderButton}
+        // onPress={() => router.push("/Order")}
+        onPress={() => navigation.navigate("Order")}
+      >
+        <Text style={styles.newOrderText}>🚀 NHẬN ĐƠN MỚI</Text>
+      </TouchableOpacity> */}
       <TouchableOpacity
         style={styles.newOrderButton}
-        onPress={() => router.push("/Order")}
+        onPress={() => setSelectedTab("Order")} // Chuyển tab bằng cách cập nhật state
       >
         <Text style={styles.newOrderText}>🚀 NHẬN ĐƠN MỚI</Text>
       </TouchableOpacity>
+
       {/* Thanh tìm kiếm */}
       <View style={styles.searchContainer}>
         <Ionicons

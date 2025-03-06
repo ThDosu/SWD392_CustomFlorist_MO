@@ -1,13 +1,12 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-
 import { tabs, COLORS, FONTS } from "../constants";
 
 import HomeOne from "./Home";
-import Favorite from "../screens/FavoriteList";
-import Profile from "../screens/Profile";
 import Order from "./Order";
+import OrderHistory from "./OrderHistory";
+import Profile from "../screens/Profile";
 
 export default function MainLayout() {
     const navigation = useNavigation();
@@ -17,7 +16,7 @@ export default function MainLayout() {
         <View style={{ flex: 1 }}>
             {selectedTab == "Home" && <HomeOne />}
             {selectedTab == "Order" && <Order />}
-            {selectedTab == "Favorite" && <Favorite />}
+            {selectedTab == "OrderHistory" && <OrderHistory />}
             {selectedTab == "Profile" && <Profile />}
 
             <View

@@ -9,28 +9,11 @@ import {
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { orders } from "../constants/demo_data";
 
 export default function Order() {
   const navigation = useNavigation();
   const [search, setSearch] = useState("");
-
-  // Danh sách đơn hàng
-  const orders = [
-    {
-      id: "1",
-      title: "Order #001",
-      userImage: "https://firebasestorage.googleapis.com/v0/b/swd392-customflorist.firebasestorage.app/o/user_avatar%2Fz6272289540347_8313f84e9f9e88baa3104f321710ad92.jpg?alt=media&token=d60cecfc-f95f-4918-8d87-70cce58733d6",
-      userName: "Phạm Lê Thành Dũng",
-      status: "Đang giao",
-    },
-    {
-      id: "2",
-      title: "Order #002",
-      userImage: "https://via.placeholder.com/50",
-      userName: "Trần Thị B",
-      status: "Chưa giao",
-    },
-  ];
 
   return (
     <View style={styles.container}>
@@ -66,7 +49,10 @@ export default function Order() {
 
       {/* Danh sách đơn hàng */}
       <FlatList
-        data={orders}
+        data={orders.filter(
+          (order) =>
+            order.status === "Đang giao" || order.status === "Chưa giao"
+        )}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity

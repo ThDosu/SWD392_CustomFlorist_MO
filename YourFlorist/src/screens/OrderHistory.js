@@ -1,125 +1,162 @@
 import {
-    View,
-    Text,
-    SafeAreaView,
-    ScrollView,
-    TouchableOpacity,
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  Image,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-
-import { Header, OrderHistoryCategory } from "../components";
-import { COLORS, FONTS, SAFEAREAVIEW, history, SIZES } from "../constants";
+import { Ionicons } from "@expo/vector-icons";
+import { orders } from "../constants/demo_data";
 
 export default function OrderHistory() {
-    const [category, setCategory] = useState("upcoming");
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+  const [search, setSearch] = useState("");
 
-    function renderCategory() {
-        return (
-            <View
-                style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginTop: SIZES.paddingTop_01,
-                    marginBottom: 30,
-                }}
-            >
-                <TouchableOpacity
-                    style={{
-                        height: 50,
-                        width: "48%",
-                        backgroundColor:
-                            category == "upcoming"
-                                ? COLORS.green
-                                : COLORS.lightGreen,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        borderRadius: 10,
-                    }}
-                    onPress={() => setCategory("upcoming")}
-                >
-                    <Text
-                        style={{
-                            ...FONTS.Roboto_700Bold,
-                            fontSize: 16,
-                            color:
-                                category == "upcoming"
-                                    ? COLORS.white
-                                    : COLORS.green,
-                        }}
-                    >
-                        Upcoming
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        height: 50,
-                        width: "48%",
-                        backgroundColor:
-                            category == "history"
-                                ? COLORS.yellow
-                                : COLORS.lightYellow,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        borderRadius: 10,
-                    }}
-                    onPress={() => setCategory("history")}
-                >
-                    <Text
-                        style={{
-                            ...FONTS.Roboto_700Bold,
-                            fontSize: 16,
-                            color:
-                                category == "history"
-                                    ? COLORS.white
-                                    : COLORS.yellow,
-                        }}
-                    >
-                        History
-                    </Text>
-                </TouchableOpacity>
+  return (
+    <View style={styles.container}>
+      {/* ✅ Header */}
+      <View style={styles.header}>
+        <Image source={require("../assets/Logo.png")} style={styles.logo} />
+        <TouchableOpacity
+          onPress={() => navigation.navigate("NeedHelp")}
+          style={{ paddingHorizontal: 14, paddingVertical: 15 }}
+        >
+          <Ionicons name="help-circle-outline" size={28} color="black" />
+        </TouchableOpacity>
+      </View>
+
+      {/* ✅ Tiêu đề */}
+      <Text style={styles.title}>LỊCH SỬ ĐƠN HÀNG</Text>
+
+      {/* Thanh tìm kiếm */}
+      <View style={styles.searchContainer}>
+        <Ionicons
+          name="search"
+          size={22}
+          color="gray"
+          style={styles.searchIcon}
+        />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Tìm kiếm đơn hàng..."
+          value={search}
+          onChangeText={setSearch}
+        />
+      </View>
+
+      {/* Danh sách đơn hàng đã giao */}
+      <FlatList
+        data={orders.filter(order => order.status === "Đã giao")}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.orderCard}
+            onPress={() => navigation.navigate("OrderDetails", { id: item.id })}
+          >
+            {/* Ảnh người mua */}
+            <Image source={{ uri: item.userImage }} style={styles.userImage} />
+
+            {/* Thông tin đơn hàng */}
+            <View style={styles.orderInfo}>
+              <Text style={styles.orderTitle}>{item.title}</Text>
+              <Text style={styles.userName}>{item.userName}</Text>
+              <Text style={styles.orderStatus}>{item.status}</Text>
             </View>
-        );
-    }
-
-    function renderUpcoming() {
-        return history.map((item, index) => {
-            return (
-                item.upcoming === true && (
-                    <View key={index}>
-                        <OrderHistoryCategory item={item} type={"upcoming"} />
-                    </View>
-                )
-            );
-        });
-    }
-
-    function renderHistory() {
-        return history.map((item, index) => {
-            return (
-                item.completed === true && (
-                    <View key={index}>
-                        <OrderHistoryCategory item={item} type={"completed"} />
-                    </View>
-                )
-            );
-        });
-    }
-
-    return (
-        <SafeAreaView style={{ ...SAFEAREAVIEW.AndroidSafeArea }}>
-            <Header title="Order History" onPress={() => navigation.goBack()} />
-            <ScrollView
-                contentContainerStyle={{
-                    paddingHorizontal: 30,
-                    flexGrow: 1,
-                }}
-                showsVerticalScrollIndicator={false}
-            >
-                {renderCategory()}
-                {category === "upcoming" ? renderUpcoming() : renderHistory()}
-            </ScrollView>
-        </SafeAreaView>
-    );
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  );
 }
+
+// ✅ Styles giống với Order.js để đảm bảo giao diện nhất quán
+const styles = {
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#ffffff",
+  },
+
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+
+  logo: {
+    width: 200,
+    height: 100,
+    resizeMode: "contain",
+  },
+
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 10,
+    color: "#1a1a1a",
+  },
+
+  searchContainer: {
+    flexDirection: "row",
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    alignItems: "center",
+    paddingHorizontal: 15,
+    height: 50,
+    marginBottom: 10,
+  },
+
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+  },
+
+  searchIcon: {
+    marginRight: 10,
+  },
+
+  orderCard: {
+    flexDirection: "row",
+    backgroundColor: "#f8f8f8",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 5,
+  },
+
+  userImage: {
+    width: 55,
+    height: 55,
+    borderRadius: 10,
+  },
+
+  orderInfo: {
+    marginLeft: 15,
+    flex: 1,
+  },
+
+  orderTitle: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#1a1a1a",
+  },
+
+  userName: {
+    fontSize: 14,
+    color: "#555",
+  },
+
+  orderStatus: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginVertical: 5,
+    color: "green", // Màu xanh để biểu thị đã giao
+  },
+};

@@ -11,8 +11,8 @@ const tabs = [
     },
     {
         id: "3",
-        screen: "Favorite",
-        icon: require("../assets/icons/heart.png"),
+        screen: "OrderHistory",
+        icon: require("../assets/icons/order_history_icon.png"),
     },
     {
         id: "4",
