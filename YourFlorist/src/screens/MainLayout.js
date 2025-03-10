@@ -1,12 +1,11 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-
-import { tabs, COLORS, FONTS, dishes } from "../constants";
+import { tabs, COLORS, FONTS } from "../constants";
 
 import HomeOne from "./Home";
-import CartIsEmpty from "../screens/CartIsEmpty";
-import Favorite from "../screens/FavoriteList";
+import Order from "./Order";
+import OrderHistory from "./OrderHistory";
 import Profile from "../screens/Profile";
 
 export default function MainLayout() {
@@ -16,8 +15,8 @@ export default function MainLayout() {
     return (
         <View style={{ flex: 1 }}>
             {selectedTab == "Home" && <HomeOne />}
-            {selectedTab == "Order" && <CartIsEmpty />}
-            {selectedTab == "Favorite" && <Favorite />}
+            {selectedTab == "Order" && <Order />}
+            {selectedTab == "OrderHistory" && <OrderHistory />}
             {selectedTab == "Profile" && <Profile />}
 
             <View
@@ -36,11 +35,9 @@ export default function MainLayout() {
                     return (
                         <TouchableOpacity
                             key={index}
-                            onPress={() =>
-                                item.screen == "Order" && dishes.length !== 0
-                                    ? navigation.navigate("Order")
-                                    : setSelectedTab(item.screen)
-                            }
+                            onPress={() => {
+                                setSelectedTab(item.screen);
+                            }}  
                         >
                             <Image
                                 source={item.icon}
