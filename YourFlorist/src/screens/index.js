@@ -13,6 +13,9 @@ import GuideDetail from "./GuideDetail";
 import Order from "./Order";
 import OrderHistory from "./OrderHistory";
 import OrderDetails from "./OrderDetails";
+import EditProfile from "./EditProfile";
+import ChangePassword from "./ChangePassword";
+import ProfileDetail from "./ProfileDetail";
 
 export {
     SignIn,
@@ -30,4 +33,7 @@ export {
     Order,
     OrderHistory,
     OrderDetails,
+    EditProfile,
+    ChangePassword,
+    ProfileDetail,
 };

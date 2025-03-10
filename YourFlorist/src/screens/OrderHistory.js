@@ -49,7 +49,7 @@ export default function OrderHistory() {
 
       {/* Danh sách đơn hàng đã giao */}
       <FlatList
-        data={orders.filter(order => order.status === "Đã giao")}
+        data={orders.filter(order => order.status === "Delivered" || order.status === "Cancelled")}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity

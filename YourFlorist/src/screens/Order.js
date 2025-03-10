@@ -51,7 +51,7 @@ export default function Order() {
       <FlatList
         data={orders.filter(
           (order) =>
-            order.status === "Đang giao" || order.status === "Chưa giao"
+            order.status === "Pending" || order.status === "Shipped"
         )}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -76,7 +76,7 @@ export default function Order() {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity style={styles.completeButton}>
-                  <Text style={styles.buttonText}>Đã giao</Text>
+                  <Text style={styles.buttonText}>Hoàn thành</Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -172,11 +172,10 @@ const styles = {
     fontSize: 14,
     fontWeight: "bold",
     marginVertical: 5,
-    color: "blue",
   },
 
   acceptButton: {
-    backgroundColor: "green",
+    backgroundColor: "orange",
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 5,
@@ -185,7 +184,7 @@ const styles = {
   },
 
   completeButton: {
-    backgroundColor: "blue",
+    backgroundColor: "green",
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 5,

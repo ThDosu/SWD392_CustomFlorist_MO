@@ -19,6 +19,9 @@ import {
     Order,
     OrderHistory,
     OrderDetails,
+    EditProfile,
+    ChangePassword,
+    ProfileDetail,
 } from "../screens";
 
 const Stack = createStackNavigator();
@@ -52,6 +55,9 @@ export default function Navigation() {
                 <Stack.Screen name="Order" component={Order} />
                 <Stack.Screen name="OrderHistory" component ={OrderHistory} />
                 <Stack.Screen name="OrderDetails" component={OrderDetails} />
+                <Stack.Screen name="EditProfile" component={EditProfile} />
+                <Stack.Screen name="ChangePassword" component={ChangePassword} />
+                <Stack.Screen name="ProfileDetail" component={ProfileDetail} />
             </Stack.Navigator>
             <FlashMessage position="top" />
         </NavigationContainer>

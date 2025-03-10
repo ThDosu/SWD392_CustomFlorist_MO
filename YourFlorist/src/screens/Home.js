@@ -22,7 +22,7 @@ export default function Home() {
   });
   const [selectedTab, setSelectedTab] = useState("Home");
 
-  const filteredOrders = orders.filter((order) => order.status === "Đang giao");
+  const filteredOrders = orders.filter((order) => order.status === "Shipped");
 
   return (
     <View style={styles.container}>
