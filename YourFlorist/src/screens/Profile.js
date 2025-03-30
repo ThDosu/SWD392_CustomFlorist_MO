@@ -6,9 +6,12 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
+import { jwtDecode } from "jwt-decode";
+import { useAuth } from "./context/AuthContext";
+import "core-js/stable/atob";
 
 import {
   Header,
@@ -24,8 +27,21 @@ import { SAFEAREAVIEW, FONTS, COLORS, SIZES } from "../constants";
 
 export default function Profile() {
   const navigation = useNavigation();
-
+  const { authToken } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const [user, setUser] = useState({ name: "Shipper" });
+
+  // decode authToken từ token
+    useEffect(() => {
+      if (authToken) {
+        try {
+          const decodedUser = jwtDecode(authToken);
+          setUser({ name: decodedUser.FullName || "Shipper" });
+        } catch (error) {
+          console.error("Lỗi giải mã token:", error);
+        }
+      }
+    }, [authToken]);
 
   function renderHeader() {
     return (
@@ -82,18 +98,7 @@ export default function Profile() {
               marginBottom: 3,
             }}
           >
-            Jhon Smith
-          </Text>
-          <Text
-            style={{
-              textAlign: "center",
-              ...FONTS.Roboto_400Regular,
-              fontSize: 14,
-              color: COLORS.gray2,
-              marginBottom: 20,
-            }}
-          >
-            +880123 456 789
+            {user.name}
           </Text>
         </TouchableOpacity>
 
@@ -101,7 +106,7 @@ export default function Profile() {
           icon={require("../assets/icons/profile.png")}
           title="Account"
           subtitle="Personal Information"
-          onPress={() => navigation.navigate("EditProfile")}
+          onPress={() => navigation.navigate("ProfileDetail")}
           iconBgColor={COLORS.lightGreen}
         />
         <ProfileCategory

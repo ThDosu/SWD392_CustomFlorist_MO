@@ -4,18 +4,53 @@ import {
     SafeAreaView,
     ScrollView,
     TouchableOpacity,
+    Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Modal from "react-native-modal";
+import "core-js/stable/atob";
 
 import { COLORS, FONTS, SAFEAREAVIEW, SIZES } from "../constants";
 import { Header, InputField, Button } from "../components";
 
 export default function ForgotPassword() {
     const navigation = useNavigation();
+    const [email, setEmail] = useState("");
     const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const handleForgotPassword = async () => {
+        if (!email) {
+            Alert.alert("Lỗi", "Vui lòng nhập địa chỉ email.");
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const response = await fetch(
+                `https://custom-florist.onrender.com/custom-florist/api/v1/users/reset-password/request?email=${encodeURIComponent(email)}`,
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                    },
+                }
+            );
+
+            const data = await response.json();
+            if (response.ok && data.status === "OK") {
+                setShowModal(true);
+            } else {
+                Alert.alert("Lỗi", data.message || "Có lỗi xảy ra, vui lòng thử lại.");
+            }
+        } catch (error) {
+            Alert.alert("Lỗi", "Không thể kết nối đến máy chủ.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     function renderContent() {
         return (
@@ -37,14 +72,18 @@ export default function ForgotPassword() {
                         lineHeight: 16 * 1.5,
                     }}
                 >
-                    Vui lòng nhập địa chỉ email của bạn. Bạn sẽ nhận được một liên kết 
+                    Vui lòng nhập địa chỉ email của bạn. Bạn sẽ nhận được một liên kết
                     để tạo mật khẩu mới qua email.
                 </Text>
                 <InputField
                     placeholder="Địa chỉ Email"
-                    contaynerStyle={{ marginBottom: 30 }}
+                    containerStyle={{ marginBottom: 30 }}
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
                 />
-                <Button title="Gửi" onPress={() => setShowModal(true)} />
+                <Button title={loading ? "Đang gửi..." : "Gửi"} onPress={handleForgotPassword} disabled={loading} />
             </KeyboardAwareScrollView>
         );
     }
@@ -53,7 +92,10 @@ export default function ForgotPassword() {
         return (
             <Modal
                 isVisible={showModal}
-                onBackdropPress={setShowModal}
+                onBackdropPress={() => {
+                    setShowModal(false);
+                    navigation.navigate("SignIn"); // Điều hướng về trang đăng nhập
+                }}
                 hideModalContentWhileAnimating={true}
                 backdropTransitionOutTiming={0}
                 style={{ margin: 0 }}
@@ -85,7 +127,7 @@ export default function ForgotPassword() {
                                 fontSize: 20,
                             }}
                         >
-                            Đã Gửi Email Đặt Lại Mật Khẩu
+                            Kiểm Tra Email
                         </Text>
                     </View>
                     <View
@@ -100,7 +142,7 @@ export default function ForgotPassword() {
                                 fontSize: 14,
                             }}
                         >
-                            Một email đã được gửi đến bạn. 
+                            Một email đã được gửi đến bạn.
                             Hãy làm theo hướng dẫn trong email để đặt lại mật khẩu.
                         </Text>
                         <TouchableOpacity
@@ -115,7 +157,7 @@ export default function ForgotPassword() {
                             }}
                             onPress={() => {
                                 setShowModal(false);
-                                navigation.navigate("NewPassword");
+                                navigation.navigate("SignIn"); // Điều hướng về SignIn
                             }}
                         >
                             <Text
@@ -126,7 +168,7 @@ export default function ForgotPassword() {
                                     textTransform: "uppercase",
                                 }}
                             >
-                                ok
+                                OK
                             </Text>
                         </TouchableOpacity>
                     </View>

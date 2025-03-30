@@ -16,6 +16,7 @@ import OrderDetails from "./OrderDetails";
 import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import ProfileDetail from "./ProfileDetail";
+import AuthProvider from "../screens/context/AuthContext";
 
 export {
     SignIn,
@@ -36,4 +37,5 @@ export {
     EditProfile,
     ChangePassword,
     ProfileDetail,
+    AuthProvider,
 };
